@@ -12,13 +12,13 @@ This plugin will Log Players experience into ``ExperienceTrackr`` database. When
 /CheckEXP <Target> - Checks a single player in the server | ``ExperienceTrackr.CheckEXP``
 /CheckServer - Checks every player in the server | ``ExperienceTrackr.CheckServer``
 
-Discord Support: https://discord.gg/YsaXwBSTSm
-
 ## Libraries Requirements
 - Dapper
 - Dapper.Mapping
 - ShimmyMySherbet.DiscordWebhooks.Embeded
 
 ## Get the Plugin Here
-https://github.com/blazethrower320/ExperienceUI/releases/tag/release
+https://github.com/blazethrower320/ExperienceTrackr/releases/tag/Release
 
+## Discord Support: 
+- https://discord.gg/YsaXwBSTSm
