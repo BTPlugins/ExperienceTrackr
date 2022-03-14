@@ -22,3 +22,4 @@ This plugin will Log Players experience into ``ExperienceTrackr`` database. When
 
 ## Discord Support: 
 - https://discord.gg/YsaXwBSTSm
+
