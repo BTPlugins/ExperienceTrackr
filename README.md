@@ -10,7 +10,7 @@ This plugin will Log Players experience into ``ExperienceTrackr`` database. When
 
 ## Commands
 /CheckEXP <Target> - Checks a single player in the server | ``ExperienceTrackr.CheckEXP``
-/CheckServer - Checks every player in the server | ``ExperienceTrackr.CheckServer``
+<br />/CheckServer - Checks every player in the server | ``ExperienceTrackr.CheckServer``
 
 ## Libraries Requirements
 - Dapper
