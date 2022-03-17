@@ -18,7 +18,7 @@ This plugin will Log Players experience into ``ExperienceTrackr`` database. When
 - ShimmyMySherbet.DiscordWebhooks.Embeded
 
 ## Get the Plugin Here
-- https://github.com/blazethrower320/ExperienceTrackr/releases/tag/Release
+- https://github.com/BTPlugins/ExperienceTrackr/releases/tag/Release
 
 ## Discord Support: 
 - https://discord.gg/YsaXwBSTSm
