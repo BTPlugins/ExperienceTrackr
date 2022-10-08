@@ -1,7 +1,0 @@
-C:\Users\blaze\source\repos\PluginTemplate\Template\obj\Debug\Template.csproj.AssemblyReference.cache
-C:\Users\blaze\source\repos\PluginTemplate\Template\obj\Debug\Template.csproj.CoreCompileInputs.cache
-C:\Users\blaze\source\repos\PluginTemplate\Template\obj\Debug\LevelingSystem.dll
-C:\Users\blaze\source\repos\PluginTemplate\Template\obj\Debug\LevelingSystem.pdb
-C:\Users\blaze\source\repos\PluginTemplate\Template\bin\Debug\LevelingSystem.dll
-C:\Users\blaze\source\repos\PluginTemplate\Template\bin\Debug\LevelingSystem.pdb
-C:\Users\blaze\source\repos\PluginTemplate\Template\obj\Debug\Template.csproj.CopyComplete
