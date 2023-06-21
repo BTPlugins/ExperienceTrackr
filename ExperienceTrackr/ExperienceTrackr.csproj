@@ -133,6 +133,7 @@
     <Compile Include="Database\Models\ExperienceTrack.cs" />
     <Compile Include="Database\Tables\ExperienceTrackTable.cs" />
     <Compile Include="Helpers\PlayerHelper.cs" />
+    <Compile Include="Helpers\ThreadHelper.cs" />
     <Compile Include="Helpers\TranslationHelper.cs" />
     <Compile Include="ExperienceTrackrPluginConfiguration.cs" />
     <Compile Include="ExperienceTrackrPlugin.cs" />

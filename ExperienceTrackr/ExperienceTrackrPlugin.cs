@@ -53,48 +53,52 @@ namespace ExperienceTrackr
         private void OnPlayerConnected(UnturnedPlayer player)
         {
             var experienceDatabase = Instance.Database.ExperienceTrack;
-            if(!experienceDatabase.AddPlayer(player.CSteamID.m_SteamID, player.Experience))
+            ThreadHelper.RunAsynchronously(async () =>
             {
-                // False - Already Exists
-                // true - new Player
-                // Already Exists
-                experienceDatabase.UpdatePlayer(player.CSteamID.m_SteamID, player.Experience);
-            }
-            if(!player.HasPermission(Instance.Configuration.Instance.ImmunityPermission) && player.Experience >= Config.AutoBanSettings.AutoBanAmount && Config.AutoBanSettings.Enabled)
-            {
-                // Ban Player
-                WebhookMessage AutoBanMessage = new WebhookMessage()
-                .PassEmbed()
-                .WithTitle("Trackr >> Auto Ban")
-                .WithDescription(player.CharacterName + " has been banned due to having a Suspicious Amount of Experience!")
-                .WithColor(EmbedColor.Red)
-                .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
-                .WithTimestamp(DateTime.Now)
-                .WithField("Username", player.CharacterName)
-                .WithField("SteamId", player.CSteamID.ToString())
-                .WithField("Flag Amount", Config.AutoBanSettings.AutoBanAmount.ToString())
-                .WithField("Experience", player.Experience.ToString())
-                .WithField("Reason", Config.AutoBanSettings.AutoBanReason)
-                .Finalize();
-                DiscordWebhookService.PostMessageAsync(Config.AutoBanSettings.AutoBanWebhook, AutoBanMessage);
-                Provider.ban(player.CSteamID, Config.AutoBanSettings.AutoBanWebhook, 99999999);
-            }
-            else if(!player.HasPermission(Config.ImmunityPermission) && player.Experience >= Config.SuspiciousSettings.SuspiciousAmount && Config.SuspiciousSettings.Enabled)
-            {
-                WebhookMessage SuspiciousMessage = new WebhookMessage()
-                .PassEmbed()
-                .WithTitle("Trackr >> Suspicious Amount")
-                .WithDescription(player.CharacterName + " was flagged for having a Suspicious Amount of Experience!")
-                .WithColor(ShimmyMySherbet.DiscordWebhooks.Embeded.EmbedColor.Red)
-                .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
-                .WithTimestamp(DateTime.Now)
-                .WithField("Username", player.CharacterName)
-                .WithField("SteamId", player.CSteamID.ToString())
-                .WithField("Flag Amount", Config.SuspiciousSettings.SuspiciousAmount.ToString())
-                .WithField("Experience", player.Experience.ToString())
-                .Finalize();
-                DiscordWebhookService.PostMessageAsync(Config.SuspiciousSettings.SuspiciousWebhook, SuspiciousMessage);
-            }
+                var check = await experienceDatabase.checkExists(player.CSteamID.m_SteamID);
+                if (await experienceDatabase.checkExists(player.CSteamID.m_SteamID) == false)
+                    await experienceDatabase.AddPlayer(player.CSteamID.m_SteamID, player.Experience);
+                else
+                    await experienceDatabase.UpdatePlayer(player.CSteamID.m_SteamID, player.Experience);
+                //
+                //
+                //
+                if (!player.HasPermission(Instance.Configuration.Instance.ImmunityPermission) && player.Experience >= Config.AutoBanSettings.AutoBanAmount && Config.AutoBanSettings.Enabled)
+                {
+                    // Ban Player
+                    WebhookMessage AutoBanMessage = new WebhookMessage()
+                    .PassEmbed()
+                    .WithTitle("Trackr >> Auto Ban")
+                    .WithDescription(player.CharacterName + " has been banned due to having a Suspicious Amount of Experience!")
+                    .WithColor(EmbedColor.Red)
+                    .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
+                    .WithTimestamp(DateTime.Now)
+                    .WithField("Username", player.CharacterName)
+                    .WithField("SteamId", player.CSteamID.ToString())
+                    .WithField("Flag Amount", Config.AutoBanSettings.AutoBanAmount.ToString())
+                    .WithField("Experience", player.Experience.ToString())
+                    .WithField("Reason", Config.AutoBanSettings.AutoBanReason)
+                    .Finalize();
+                    await DiscordWebhookService.PostMessageAsync(Config.AutoBanSettings.AutoBanWebhook, AutoBanMessage);
+                    Provider.ban(player.CSteamID, Config.AutoBanSettings.AutoBanWebhook, 99999999);
+                }
+                else if (!player.HasPermission(Config.ImmunityPermission) && player.Experience >= Config.SuspiciousSettings.SuspiciousAmount && Config.SuspiciousSettings.Enabled)
+                {
+                    WebhookMessage SuspiciousMessage = new WebhookMessage()
+                    .PassEmbed()
+                    .WithTitle("Trackr >> Suspicious Amount")
+                    .WithDescription(player.CharacterName + " was flagged for having a Suspicious Amount of Experience!")
+                    .WithColor(ShimmyMySherbet.DiscordWebhooks.Embeded.EmbedColor.Red)
+                    .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
+                    .WithTimestamp(DateTime.Now)
+                    .WithField("Username", player.CharacterName)
+                    .WithField("SteamId", player.CSteamID.ToString())
+                    .WithField("Flag Amount", Config.SuspiciousSettings.SuspiciousAmount.ToString())
+                    .WithField("Experience", player.Experience.ToString())
+                    .Finalize();
+                    await DiscordWebhookService.PostMessageAsync(Config.SuspiciousSettings.SuspiciousWebhook, SuspiciousMessage);
+                }
+            });
         }
 
         protected override void Unload()

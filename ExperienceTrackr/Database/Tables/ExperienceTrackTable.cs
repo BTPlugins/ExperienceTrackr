@@ -1,4 +1,5 @@
 ﻿using ExperienceTrackr.Database.Models;
+using Rocket.Core.Logging;
 using ShimmyMySherbet.MySQL.EF.Core;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,11 @@ namespace ExperienceTrackr.Database.Tables
         public ExperienceTrackTable(string tableName) : base(tableName)
         {
         } 
-        public void UpdatePlayer(ulong steamID, uint experience)
+        public async Task UpdatePlayer(ulong steamID, uint experience)
         {
-            ExecuteNonQuery("UPDATE @TABLE SET Experience = @0 WHERE SteamID = @1", experience, steamID);
+            await ExecuteNonQueryAsync("UPDATE @TABLE SET Experience = @0 WHERE SteamID = @1", experience, steamID);
         }
-        public bool AddPlayer(ulong steamID, uint experience)
+        public async Task AddPlayer(ulong steamID, uint experience)
         {
             var newPlayer = new ExperienceTrack()
             {
@@ -26,11 +27,12 @@ namespace ExperienceTrackr.Database.Tables
                 Experience = experience,
                 LastUpdated = DateTime.UtcNow
             };
-            try
-            {
-                Insert(newPlayer);
-            }
-            catch (SqlException)
+            await InsertAsync(newPlayer);
+        }
+        public async Task<bool> checkExists(ulong playerID)
+        {
+            var check = await QuerySingleAsync<int>("SELECT COUNT(*) FROM @TABLE WHERE SteamID = @0", playerID);
+            if(check == 0)
             {
                 return false;
             }

@@ -18,7 +18,7 @@ namespace ExperienceTrackr
                 "TargetNotFound", "[color=#FF0000]{{ExperienceTrackr}} [/color][color=#F3F3F3]Target Not Found![/color]"
             },
             {
-                "TargetExperience", "[color=#FF0000]{{ExperienceTrackr}} [/color][color=#3E65FF]{0}[/color] [color=#F3F3F3]Currently has[/color] [color=#3E65FF]{1}[/color] [color=#F3F3F3Experience![/color]"
+                "TargetExperience", "[color=#FF0000]{{ExperienceTrackr}} [/color][color=#3E65FF]{0}[/color] [color=#F3F3F3]Currently has[/color] [color=#3E65FF]{1}[/color] [color=#F3F3F3>Experience![/color]"
             },
             {
                 "AutoBanMessage", "[color=#FF0000]{{ExperienceTrackr}} [/color][color=#3E65FF]{0}[/color] [color=#F3F3F3]has been Auto-Banned for having a Suspicious amount of Experience![/color]"

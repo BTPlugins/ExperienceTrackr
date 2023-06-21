@@ -38,24 +38,27 @@ namespace ExperienceTrackr.Commands
                 TranslationHelper.SendMessageTranslation(player.CSteamID, "TargetNotFound");
                 return;
             }
-            TranslationHelper.SendMessageTranslation(player.CSteamID, "TargetExperience");
+            TranslationHelper.SendMessageTranslation(player.CSteamID, "TargetExperience", target.CharacterName, target.Experience.ToString());
             if (!player.HasPermission(ExperienceTrackrPlugin.Instance.Configuration.Instance.ImmunityPermission) && player.Experience >= ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanAmount && ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.Enabled)
             {
                 // Ban Player
-                WebhookMessage AutoBanMessage = new WebhookMessage()
-                .PassEmbed()
-                .WithTitle("Trackr >> Auto Ban")
-                .WithDescription(player.CharacterName + " has been banned due to having a Suspicious Amount of Experience!")
-                .WithColor(EmbedColor.Red)
-                .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
-                .WithTimestamp(DateTime.Now)
-                .WithField("Username", player.CharacterName)
-                .WithField("SteamId", player.CSteamID.ToString())
-                .WithField("Flag Amount", ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanAmount.ToString())
-                .WithField("Experience", player.Experience.ToString())
-                .WithField("Reason", ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanReason)
-                .Finalize();
-                DiscordWebhookService.PostMessageAsync(ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanWebhook, AutoBanMessage);
+                ThreadHelper.RunAsynchronously(async () =>
+                {
+                    WebhookMessage AutoBanMessage = new WebhookMessage()
+                    .PassEmbed()
+                    .WithTitle("Trackr >> Auto Ban")
+                    .WithDescription(player.CharacterName + " has been banned due to having a Suspicious Amount of Experience!")
+                    .WithColor(EmbedColor.Red)
+                    .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
+                    .WithTimestamp(DateTime.Now)
+                    .WithField("Username", player.CharacterName)
+                    .WithField("SteamId", player.CSteamID.ToString())
+                    .WithField("Flag Amount", ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanAmount.ToString())
+                    .WithField("Experience", player.Experience.ToString())
+                    .WithField("Reason", ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanReason)
+                    .Finalize();
+                     await DiscordWebhookService.PostMessageAsync(ExperienceTrackrPlugin.Instance.Configuration.Instance.AutoBanSettings.AutoBanWebhook, AutoBanMessage);
+                });
                 foreach (SteamPlayer steamPlayer in Provider.clients)
                 {
                     UnturnedPlayer user = UnturnedPlayer.FromSteamPlayer(steamPlayer);
@@ -68,19 +71,22 @@ namespace ExperienceTrackr.Commands
             }
             else if (!player.HasPermission(ExperienceTrackrPlugin.Instance.Configuration.Instance.ImmunityPermission) && player.Experience >= ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.SuspiciousAmount && ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.Enabled)
             {
-                WebhookMessage SuspiciousMessage = new WebhookMessage()
-                .PassEmbed()
-                .WithTitle("Trackr >> Suspicious Amount")
-                .WithDescription(player.CharacterName + " was flagged for having a Suspicious Amount of Experience!")
-                .WithColor(ShimmyMySherbet.DiscordWebhooks.Embeded.EmbedColor.Red)
-                .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
-                .WithTimestamp(DateTime.Now)
-                .WithField("Username", player.CharacterName)
-                .WithField("SteamId", player.CSteamID.ToString())
-                .WithField("Flag Amount", ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.SuspiciousAmount.ToString())
-                .WithField("Experience", player.Experience.ToString())
-                .Finalize();
-                DiscordWebhookService.PostMessageAsync(ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.SuspiciousWebhook, SuspiciousMessage);
+                ThreadHelper.RunAsynchronously(async () =>
+                {
+                    WebhookMessage SuspiciousMessage = new WebhookMessage()
+                    .PassEmbed()
+                    .WithTitle("Trackr >> Suspicious Amount")
+                    .WithDescription(player.CharacterName + " was flagged for having a Suspicious Amount of Experience!")
+                    .WithColor(ShimmyMySherbet.DiscordWebhooks.Embeded.EmbedColor.Red)
+                    .WithURL("https://steamcommunity.com/profiles/" + player.CSteamID)
+                    .WithTimestamp(DateTime.Now)
+                    .WithField("Username", player.CharacterName)
+                    .WithField("SteamId", player.CSteamID.ToString())
+                    .WithField("Flag Amount", ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.SuspiciousAmount.ToString())
+                    .WithField("Experience", player.Experience.ToString())
+                    .Finalize();
+                    await DiscordWebhookService.PostMessageAsync(ExperienceTrackrPlugin.Instance.Configuration.Instance.SuspiciousSettings.SuspiciousWebhook, SuspiciousMessage);
+                });
                 foreach (SteamPlayer steamPlayer in Provider.clients)
                 {
                     UnturnedPlayer user = UnturnedPlayer.FromSteamPlayer(steamPlayer);
@@ -92,7 +98,7 @@ namespace ExperienceTrackr.Commands
             }
             else
             {
-                TranslationHelper.SendMessageTranslation(player.CSteamID, "TargetExperience", target.Experience);
+                TranslationHelper.SendMessageTranslation(player.CSteamID, "TargetExperience", target.CharacterName, target.Experience.ToString());
             }
         }
     }
